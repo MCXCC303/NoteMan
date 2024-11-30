@@ -37,7 +37,7 @@ Notebook
     ├── snippet-2.snippets
     └── ...
 ```
-Check out my notebook detailed structure in [colledge-note](https://github.com/MCXCC303/college-note.git).
+Check out my notebook detailed structure in [college-note](https://github.com/MCXCC303/college-note.git).
 
 ## Key Bindings
 Check your window manager wiki and add bindings to execute rofi_XXX.py

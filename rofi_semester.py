@@ -13,6 +13,7 @@ def semester_option():
                         'Switch Semester',
                         'Read TextBooks',]
                         # 'New Course', TODO
+                        # 'Compile All Courses', TODO
 
     semester_rofi = Rofi('semester-options', semester_options, prompt=f'Semester-{semester.count}')
     semester_rofi.run()
