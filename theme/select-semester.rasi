@@ -1,0 +1,7 @@
+@import                         "header.rasi"
+window {
+    width:                      400px;
+}
+entry {
+    placeholder:                "...";
+}
