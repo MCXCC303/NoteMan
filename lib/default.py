@@ -66,7 +66,7 @@ class Notebook:
     @staticmethod
     def _latex_compile(course_path=CURRENT_LECTURE, main_tex_file=MAIN_TEX.name):
         latex_compile_args = LATEX_COMPILE_ARGS
-        latex_compile_args.append(MAIN_TEX.name)
+        latex_compile_args.append(main_tex_file)
         result = subprocess.run(latex_compile_args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                                 cwd=str(course_path))
         return result.returncode  # Optional
@@ -80,7 +80,9 @@ class Notebook:
         return sub_strs
 
     @staticmethod
-    def _edit(file, editor="vim", term_win=None):
+    def _edit(file, editor="vim", term_win=None, vim_args=None):
+        if vim_args is None:
+            vim_args = ['--servername', 'THF', '--remote-silent']
         if term_win is None:
             term_win = ["alacritty", "--command"]
         edit_open_args = term_win

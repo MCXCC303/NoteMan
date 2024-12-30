@@ -155,7 +155,7 @@ class Course(default.Notebook):
         self._edit(self.path / new_lecture_file)
         self.compile_option("Latest Two")
         self.compile_lectures()
-        self.read_main_pdf()
+        # self.read_main_pdf()
 
     def remove_lecture(self, file=None):
         if file is not None:
