@@ -10,6 +10,10 @@ import subprocess
 
 NOTEBOOK_ROOT = Path('~/Notebook').expanduser()
 NOTER = 'THF'
+PDF_READER = 'zathura'
+OFFICE_TOOL = 'onlyoffice-desktopeditors'
+PHOTO_VIEWER = 'feh'
+SVG_TOOL = 'inkscape'
 CURRENT_SEMESTER = NOTEBOOK_ROOT / 'current-semester'
 CURRENT_LECTURE = NOTEBOOK_ROOT / 'current-lecture'
 # DATE_FORMAT = '%a %d %b %Y %H:%M'
@@ -90,9 +94,21 @@ class Notebook:
         subprocess.Popen(edit_open_args)
 
     @staticmethod
-    def _read(pdf_file, reader="zathura"):
-        read_args = [reader, pdf_file]
+    def _read(book_file, reader=PDF_READER):
+        read_args = [reader, book_file]
         subprocess.Popen(read_args)
+
+    @staticmethod
+    def _choose_reader(fullname: Path):
+        if 'pdf' in fullname.suffix:
+            return PDF_READER
+        if ('ppt' or 'xls' or 'doc') in fullname.suffix:
+            return OFFICE_TOOL
+        if ('jpg' or 'jpeg' or 'png') in fullname.suffix:
+            return PHOTO_VIEWER
+        if 'svg' in fullname.suffix:
+            return SVG_TOOL
+        return PDF_READER
 
     @staticmethod
     def _parse_lecture_spec(number):

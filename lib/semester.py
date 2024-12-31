@@ -67,7 +67,10 @@ class Semester(default.Notebook):
         select_textbook = Rofi('read-textbook', self.__textbooks[0], prompt='Textbook', lines=9)
         select_textbook.run()
         if select_textbook.output['index'] != -1:
-            self._read(self.path / 'TextBooks' / str(self.__textbooks[1][select_textbook.output['index']]))
+            textbook_fullname = str(self.__textbooks[1][select_textbook.output['index']])
+            reader = self._choose_reader(Path(textbook_fullname))
+            self._read(self.path / 'TextBooks' / textbook_fullname,
+                       reader=reader)
 
     def select_course(self):
         select_lecture = Rofi('select-course', self.__courses, prompt='Courses', lines=9)
