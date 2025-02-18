@@ -1,0 +1,234 @@
+%─────────────────────%
+% Undefined Variables %
+%─────────────────────%
+\ifx\noter\undefined
+    \def\noter{THF}
+\else
+\fi
+\ifx\lecturer\undefined
+    \def\lecturer{None}
+\else
+\fi
+
+%──────────────%
+% New Commands %
+%──────────────%
+\newcommand{\lecture}[2]{ % lecture sign
+    \def\@lecture{Lecture #1}%
+    \subsection*{\@lecture}
+    \marginpar{\small\textsf{\text{#2}}}
+}
+
+\newcommand{\learn}[2]{
+    \def\learn{Learn #1}%
+    \subsection*{\learn}
+    \marginpar{\small\textsf{\text{#2}}}
+}
+
+%───────────────────%
+% Document Settings %
+%───────────────────%
+\documentclass[10pt,a4paper]{article}
+% \documentclass[10pt,twocolumn,a4paper]{article}
+
+%─────────────────%
+% Package Imports %
+%─────────────────%
+\usepackage[]{amsmath}
+\usepackage[]{amssymb}
+\usepackage[]{amsthm}
+\usepackage[]{array}
+\usepackage[]{bm}
+\usepackage[]{booktabs}
+\usepackage[]{chemfig}
+\usepackage[]{enumitem}
+\usepackage[]{fancyhdr}
+\usepackage[]{float}
+\usepackage[]{geometry}
+\usepackage[]{graphicx}
+\usepackage[]{hyperref}
+\usepackage[]{import}
+\usepackage[]{inputenc}
+\usepackage[]{mathrsfs}
+\usepackage[]{multirow}
+\usepackage[]{pdfpages}
+\usepackage[]{pgfplots}
+\usepackage[]{stmaryrd}
+\usepackage[]{tabu}
+\usepackage[]{tcolorbox}
+\usepackage[]{textcomp}
+\usepackage[]{thmtools}
+\usepackage[]{tikz}
+\usepackage[]{tkz-euclide}
+\usepackage[]{url}
+\usepackage[]{wrapfig}
+\usepackage[]{xifthen}
+\usepackage[]{yhmath}
+\usepackage[UTF8]{ctex}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[notransparent]{svg}
+\usepackage[version=4]{mhchem}
+
+%───────────────────%
+% Inkscape Settings %
+%───────────────────%
+\newcommand{\incfig}[2][1]{%
+    \def\svgwidth{#1\columnwidth}
+    \import{./figures/}{#2.pdf_tex}
+}
+
+%───────────────%
+% Page Settings %
+%───────────────%
+\geometry{left=2.0cm,right=2.0cm,top=1.7cm,bottom=1.7cm}
+% \addtolength{\parskip}{-1mm}
+% \addtolength{\parindent}{-2mm}
+
+%────────────────%
+% Fancy Settings %
+%────────────────%
+\fancypagestyle{CustomStyle}{%
+    \fancyhf{}
+    \fancyhead[R]{\thepage}
+    \fancyhead[L]{\lecturer: \className}
+    \fancyfoot[C]{\@lecture}
+}
+
+%──────────────────%
+% pgfplot Settings %
+%──────────────────%
+\usepgfplotslibrary{external}
+\pgfarrowsdeclarecombine{twolatex'}{twolatex'}{latex'}{latex'}{latex'}{latex'}
+\pgfplotsset{compat=1.12}
+
+%───────────────%
+% Tikz Settings %
+%───────────────%
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{positioning}
+\usetikzlibrary{fadings}
+\usetikzlibrary{intersections}
+\usetikzlibrary{cd}
+\tikzset{->/.style = {decoration={markings,mark=at position 1 with {\arrow[scale=2]{latex'}}},postaction={decorate}}}
+\tikzset{<-/.style = {decoration={markings,mark=at position 0 with {\arrowreversed[scale=2]{latex'}}},postaction={decorate}}}
+\tikzset{<->/.style = {decoration={markings,mark=at position 0 with {\arrowreversed[scale=2]{latex'}},mark=at position 1 with {\arrow[scale=2]{latex'}}},postaction={decorate}}}
+\tikzset{->-/.style = {decoration={markings,mark=at position #1 with {\arrow[scale=2]{latex'}}},postaction={decorate}}}
+\tikzset{-<-/.style = {decoration={markings,mark=at position #1 with {\arrowreversed[scale=2]{latex'}}},postaction={decorate}}}
+\tikzset{->>/.style = {decoration={markings,mark=at position 1 with {\arrow[scale=2]{latex'}}}postaction={decorate}}}
+\tikzset{<<-/.style = {decoration={markings,mark=at position 0 with {\arrowreversed[scale=2]{twolatex'}}},postaction={decorate}}}
+\tikzset{<<->>/.style = {decoration={markings,mark=at position 0 with {\arrowreversed[scale=2]{twolatex'}},mark=at position 1 with {\arrow[scale=2]{twolatex'}}},postaction={decorate}}}
+\tikzset{->>-/.style = {decoration={markings,mark=at position #1 with {\arrow[scale=2]{twolatex'}}},postaction={decorate}}}
+\tikzset{-<<-/.style = {decoration={markings,mark=at position #1 with {\arrowreversed[scale=2]{twolatex'}}},postaction={decorate}}}
+\tikzset{circ/.style = {fill, circle, inner sep = 0, minimum size = 3}}
+\tikzset{scirc/.style = {fill, circle, inner sep = 0, minimum size = 1.5}}
+\tikzset{mstate/.style={circle, draw, blue, text=black, minimum width=0.7cm}}
+\tikzset{eqpic/.style={baseline={([yshift=-.5ex]current bounding box.center)}}}
+\tikzset{commutative diagrams/.cd,cdmap/.style={/tikz/column 1/.append style={anchor=base east},/tikz/column 2/.append style={anchor=base west},row sep=tiny}}
+
+%──────────────────────%
+% Theorem Environments %
+%──────────────────────%
+\theoremstyle{definition}
+% \declaretheoremstyle[
+%     headfont=\bfseries\sffamily\color{ForestGreen!70!black}, bodyfont=\normalfont,
+%     mdframed={
+%         linewidth=2pt,
+%         rightline=false, topline=false, bottomline=false,
+%         linecolor=ForestGreen, backgroundcolor=ForestGreen!5,
+%     }
+% ]{thmDefi} % Defi = Green box
+% \declaretheoremstyle[
+%     headfont=\bfseries\sffamily\color{RawSienna!70!black}, bodyfont=\normalfont,
+%     numbered=no,
+%     mdframed={
+%         linewidth=2pt,
+%         rightline=false, topline=false, bottomline=false,
+%         linecolor=RawSienna, backgroundcolor=RawSienna!1,
+%     },
+%     qed=\qedsymbol
+% ]{thmProof} % Proof = Red box
+% \declaretheoremstyle[
+%     headfont=\bfseries\sffamily\color{NavyBlue!70!black}, bodyfont=\normalfont,
+%     mdframed={
+%         linewidth=2pt,
+%         rightline=false, topline=false, bottomline=false,
+%         linecolor=NavyBlue
+%     }
+% ]{thmNotation} % Notation = Blue line
+% \declaretheoremstyle[
+%     headfont=\bfseries\sffamily\color{NavyBlue!70!black}, bodyfont=\normalfont,
+%     mdframed={
+%         linewidth=2pt,
+%         rightline=false, topline=false, bottomline=false,
+%         linecolor=NavyBlue, backgroundcolor=NavyBlue!5,
+%     }
+% ]{thmbluebox}
+% \declaretheoremstyle[
+%     headfont=\bfseries\sffamily\color{RawSienna!70!black}, bodyfont=\normalfont,
+%     mdframed={
+%         linewidth=2pt,
+%         rightline=false, topline=false, bottomline=false,
+%         linecolor=RawSienna, backgroundcolor=RawSienna!5,
+%     }
+% ]{thmredbox}
+% \declaretheoremstyle[
+%     headfont=\bfseries\sffamily\color{NavyBlue!70!black}, bodyfont=\normalfont,
+%     numbered=no,
+%     mdframed={
+%         linewidth=2pt,
+%         rightline=false, topline=false, bottomline=false,
+%         linecolor=NavyBlue, backgroundcolor=NavyBlue!1,
+%     },
+% ]{thmexplanationbox}
+% \declaretheorem[style=thmNotation,numbered=no,name=Notation]{notation}
+% \declaretheorem[style=thmDefi,numbered=no,name=Definition]{defi}
+% \declaretheorem[style=thmProof,numbered=no,name=Proof]{replacementproof}
+\newtheorem*{aim}{Aim}
+\newtheorem*{assumption}{Assumption}
+\newtheorem*{axiom}{Axiom}
+\newtheorem*{claim}{Claim}
+\newtheorem*{conjecture}{Conjecture}
+\newtheorem*{cor}{Corollary}
+\newtheorem*{defi}{Definition}
+\newtheorem*{eg}{Example}
+\newtheorem*{exercise}{Exercise}
+\newtheorem*{ex}{Exercise}
+\newtheorem*{fact}{Fact}
+\newtheorem*{law}{Law}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{notation}{Notation}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{question}{Question}
+\newtheorem*{remark}{Remark}
+\newtheorem*{sol}{Solve}
+\newtheorem*{rrule}{Rule}
+\newtheorem*{thm}{Theorem}
+\newtheorem*{warning}{Warning}
+\newtheorem{nthm}{Theorem}[section]
+\newtheorem{ncor}[nthm]{Corollary}
+\newtheorem{nlemma}[nthm]{Lemma}
+\newtheorem{nprop}[nthm]{Proposition}
+% \renewenvironment{proof}[1][\proofname]{\vspace{-10pt}\begin{replacementproof}}{\end{replacementproof}}
+
+%─────────────%
+% Math Symbol %
+%─────────────%
+
+%────────────%
+% Enum items %
+%────────────%
+\setlist[description]{noitemsep}
+\setlist[enumerate,1]{noitemsep,leftmargin=4em,label=\emph{\alph*}.}
+\setlist[enumerate,2]{noitemsep,leftmargin=1em,label=$\circ$}
+\setlist[itemize,1]{noitemsep,leftmargin=3em,label=$\bullet$}
+\setlist[itemize,2]{noitemsep,leftmargin=1em,label=$\circ$}
+
+%────────────%
+% Beginnings %
+%────────────%
+\title{\textbf{Part III-B: \className}}
+\author{Lecture by \lecturer\\Note by \noter}
+\pagestyle{CustomStyle}
+
