@@ -1,8 +1,12 @@
 import os
 import sys
-from lib.default import NOTEBOOK_ROOT,CURRENT_LECTURE,CURRENT_SEMESTER
+from lib.default import CURRENT_LECTURE,CURRENT_SEMESTER
+from lib.default import NOTEBOOK_ROOT
 from lib.course import Course
 
+# NOTEBOOK_ROOT = Path('/home/thf/Homework')
+# CURRENT_LECTURE = NOTEBOOK_ROOT / 'current-lecture'
+# CURRENT_SEMESTER = NOTEBOOK_ROOT / 'current-semester'
 
 def int_to_roman(num):
     if num == 0:

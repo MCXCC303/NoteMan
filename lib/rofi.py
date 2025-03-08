@@ -2,7 +2,6 @@
 
 import subprocess
 
-THEME_PATH = "/home/thf/Programme/Python/NoteMan/theme/"
 
 class Rofi:
     """
@@ -21,40 +20,65 @@ class Rofi:
     @function run(): start a rofi menu and store status and selections in self.output
     """
 
-    def __init__(self, session_name, options, prompt='NoteMan', lines=7, fuzzy=False, multi_select=False, theme=True,
-                 theme_path=THEME_PATH, extra_args=None):
+    def __init__(
+        self,
+        session_name: str,
+        options: list,
+        prompt: str = "NoteMan",
+        theme_path: str = "/home/thf/Programme/Python/NoteMan/theme/",
+        lines: int = 7,
+        use_fuzzy_search=False,
+        multi_select_enabled=False,
+        theme_enabled=True,
+        extra_args: list[str] = [],
+        confirm_window=False,
+    ):
+        self._confirm_window = confirm_window
+        if self._confirm_window:
+            self.session_name = session_name
+            self._theme_enabled = theme_enabled
+            self.prompt = prompt
+            self.theme_path = theme_path
+            self.lines = lines
+            self.options = options
+            return
         self.session_name = session_name
         self.options = options
         self.prompt = prompt
-        self.fuzzy = fuzzy
-        self.multi_select = multi_select
-        self.theme = theme
         self.lines = lines
         self.theme_path = theme_path
-        self.extra_args = extra_args
+        self._use_fuzzy_search = use_fuzzy_search
+        self._multi_select_enabled = multi_select_enabled
+        self._theme_enabled = theme_enabled
+        self._extra_args = extra_args
         self.output = None
         self.rofi_args = None
-        if extra_args is None:
-            self.extra_args = []
 
     def run(self):
-        rofi_options = '\n'.join(self.options)
-        args = ['rofi', '-dmenu']  # Base of rofi
-        args += ['-markup-rows', '-sort']
-        args += ['-p', self.prompt]
-        args += ['-l', self.lines]
-        args += ['-format', 's', '-i']
-        args += self.extra_args
-        if self.fuzzy:
-            args += ['-matching', 'fuzzy']
-        if self.multi_select:
-            args += ['-multi-select']
-        if self.theme:
-            args += ['-theme', self.theme_path + self.session_name + '.rasi']
+        if self._confirm_window:
+            raise AttributeError
+        rofi_options = "\n".join(self.options)
+        args = ["rofi", "-dmenu"]  # Base of rofi
+        args += ["-markup-rows", "-sort"]
+        args += ["-p", self.prompt]
+        args += ["-l", self.lines]
+        args += ["-format", "s", "-i"]
+        args += self._extra_args
+        if self._use_fuzzy_search:
+            args += ["-matching", "fuzzy"]
+        if self._multi_select_enabled:
+            args += ["-multi-select"]
+        if self._theme_enabled:
+            args += ["-theme", self.theme_path + self.session_name + ".rasi"]
         args = [str(arg) for arg in args]
         self.rofi_args = args  # Debug
 
-        result = subprocess.run(self.rofi_args, input=rofi_options, stdout=subprocess.PIPE, universal_newlines=True)
+        result = subprocess.run(
+            self.rofi_args,
+            input=rofi_options,
+            stdout=subprocess.PIPE,
+            universal_newlines=True,
+        )
         return_code = result.returncode
         stdout = result.stdout.strip()
         selections = stdout.strip()
@@ -73,3 +97,34 @@ class Rofi:
             key = return_code - 9
 
         self.output = dict(selections=selections, index=index, key=key)
+
+    def run_confirm(self):
+        if not self._confirm_window:
+            raise AttributeError
+        buttons = f"{self.options[0]}\n{self.options[1]}"
+        args = ["rofi", "-dmenu"]  # Base of rofi
+        args += ["-p", self.prompt]
+        args += ["-mesg", self.prompt]
+        args += [
+            "-theme-str",
+            "textbox {horizontal-align: 0.5;}",
+            "-theme-str",
+            "listview {columns: 2; lines: 1;}",
+            "-theme-str",
+            'mainbox {children: ["message", "listview"];}',
+        ]
+        if self._theme_enabled:
+            args += ["-theme", self.theme_path + self.session_name + ".rasi"]
+        self.rofi_args = args  # Debug
+        result = subprocess.run(
+            self.rofi_args,
+            input=buttons,
+            stdout=subprocess.PIPE,
+            universal_newlines=True,
+        )
+        return_code = result.returncode
+        stdout = result.stdout.strip()
+        if return_code == 0:
+            self.confirm_result = stdout
+            return
+        self.confirm_result = self.options[1]

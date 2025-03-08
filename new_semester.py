@@ -4,6 +4,7 @@ import sys
 from lib.default import NOTEBOOK_ROOT
 from new_lecture import create_lecture
 
+# NOTEBOOK_ROOT = Path('/home/thf/Homework')
 
 def main():
     X = input("semester number (create as semester-X): ").strip()
