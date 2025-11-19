@@ -16,6 +16,7 @@ XOPP_READER = 'xournalpp'
 OFFICE_TOOL = 'libreoffice'
 PHOTO_VIEWER = 'imv'
 SVG_TOOL = 'inkscape'
+DIR_EXPLORER = 'nemo'
 CURRENT_SEMESTER = NOTEBOOK_ROOT / 'current-semester'
 CURRENT_LECTURE = NOTEBOOK_ROOT / 'current-lecture'
 # DATE_FORMAT = '%a %d %b %Y %H:%M'
@@ -112,6 +113,8 @@ class Notebook:
             return SVG_TOOL
         if 'xopp' in fullname.suffix:
             return XOPP_READER
+        if not fullname.suffix:
+            return DIR_EXPLORER
         return PDF_READER
 
     @staticmethod
