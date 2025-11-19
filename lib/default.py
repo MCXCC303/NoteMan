@@ -6,13 +6,15 @@ from natsort import natsorted
 from pathlib import Path
 import os
 import re
+import sys
 import subprocess
 
 NOTEBOOK_ROOT = Path('~/Notebook').expanduser()
 NOTER = 'THF'
 PDF_READER = 'zathura'
-OFFICE_TOOL = 'onlyoffice-desktopeditors'
-PHOTO_VIEWER = 'feh'
+XOPP_READER = 'xournalpp'
+OFFICE_TOOL = 'libreoffice'
+PHOTO_VIEWER = 'imv'
 SVG_TOOL = 'inkscape'
 CURRENT_SEMESTER = NOTEBOOK_ROOT / 'current-semester'
 CURRENT_LECTURE = NOTEBOOK_ROOT / 'current-lecture'
@@ -104,10 +106,12 @@ class Notebook:
             return PDF_READER
         if ('ppt' or 'xls' or 'doc') in fullname.suffix:
             return OFFICE_TOOL
-        if ('jpg' or 'jpeg' or 'png') in fullname.suffix:
+        if ('jpg' or 'jpeg' or 'png' or 'gif') in fullname.suffix:
             return PHOTO_VIEWER
         if 'svg' in fullname.suffix:
             return SVG_TOOL
+        if 'xopp' in fullname.suffix:
+            return XOPP_READER
         return PDF_READER
 
     @staticmethod
@@ -124,3 +128,5 @@ class Notebook:
         if select_semester.output['selections'] != '':
             os.remove(CURRENT_SEMESTER)
             os.symlink(self.root / select_semester.output['selections'], CURRENT_SEMESTER)
+        else:
+            sys.exit(0)

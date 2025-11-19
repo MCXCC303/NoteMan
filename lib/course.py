@@ -1,5 +1,6 @@
 # Tool project "NoteMan"
 
+import sys
 from . import default
 from .lecture import Lecture
 from .rofi import Rofi
@@ -192,6 +193,8 @@ class Course(default.Notebook):
             return
         remove_lecture = Rofi("remove-lecture", self.__lectures[0], prompt="Remove")
         remove_lecture.run()
+        if remove_lecture.output['selections'] == '':
+            return
         confirm_remove = Rofi("confirm-remove", ['Yes', 'No'], confirm_window=True, prompt=f"Comfirm Delete {remove_lecture.output['selections']}?")
         confirm_remove.run_confirm()
         if confirm_remove.confirm_result == 'No':

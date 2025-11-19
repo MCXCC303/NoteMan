@@ -25,7 +25,7 @@ class Rofi:
         session_name: str,
         options: list,
         prompt: str = "NoteMan",
-        theme_path: str = "/home/thf/Programme/Python/NoteMan/theme/",
+        theme_path: str = "/home/thf/Applications/NoteMan/theme/",
         lines: int = 7,
         use_fuzzy_search=False,
         multi_select_enabled=False,
